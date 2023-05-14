@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Speech Recognition</title>
+    
+    <style>
+      .talk {
+        font-size: 24px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .talk:hover {
+        background-color: #3e8e41;
+      }
+
+      .box {
+        border: 2px solid #4CAF50;
+        padding: 10px;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <!-- Add an image -->
+   <div> <img src="image.png" alt="Example Image"> </div>
+    <h1>AI-POWERED VIRTUAL ASSISTANT</h1>
+    <button class="talk">Talk</button>
+    <div class="box">
+      <h3>You said:</h3>
+      <p class="content"></p>
+    </div>
+    <div class="box">
+      <h3>Result:</h3>
+      <p class="result"></p>
+    </div>
+
+    
+
+    <script>
+      // The JavaScript Part Starts
+
+      const btn = document.querySelector('.talk');
+      const content = document.querySelector('.content');
+      const result = document.querySelector('.result');
+
+      const YouTube = ['opening youtube sir'];
+      const Google = ['opening google sir'];
+      const Music = ['playing music sir'];
+      const News = ['getting the latest news sir'];
+
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+
+      recognition.onstart = function () {
+        console.log('How Can I Help You ?');
+      };
+      recognition.onresult = function (event) {
+        const current = event.resultIndex;
+
+        const transcript = event.results[current][0].transcript;
+        content.textContent = transcript;
+        readOutLoud(transcript);
+      };
+
+      btn.addEventListener('click', () => {
+        recognition.start();
+      });
+
+      function readOutLoud(message) {
+        const speech = new SpeechSynthesisUtterance();
+
+        speech.text = 'I am not able to understand ,sir';
+
+        if (message.includes('YouTube')) {
+          const finalText =
+            YouTube[Math.floor(Math.random() * YouTube.length)];
+          speech.text = finalText;
+          window.open('https://www.youtube.com/');
+        }
+
+        if (message.includes('Google')) {
+          const finalText =
+            Google[Math.floor(Math.random() * Google.length)];
+          speech.text = finalText;
+          window.open(
+            'https://www.google.com/search?q=' +
+              message.split(' ').slice(1).join('+')
+          );
+        }
+
+        if (message.includes('play music')) {
+          const finalText =
+            Music[Math.floor(Math.random() * Music.length)];
+          speech.text = finalText;
+          window.open(
+            'https://www.youtube.com/results?search_query=' +
+              message.split(' ').slice(2).join('+')
+          );
+        }
+
+        if (message.includes('latest news')) {
+          const finalText =
+            News[Math.floor(Math.random() * News.length)];
+          speech.text = finalText;
+          window.open(
+            'https://news.google.com/topstories?hl=en-US&gl=US&ceid=US:en'
+          );
+        }
+
+        if (
+          message.includes('current time') ||
+          message.includes('current date')
+        ) {
+          const currentTime = new Date();
+          speech.text = `The current time and date is ${currentTime.toLocaleString()}`;
+          result.textContent = `The current time and date is ${currentTime.toLocaleString()}`;
+        }
+
+        if (message.includes('calculate')) {
+          try {
+            const calculation = eval(
+              message.split(' ').slice(1).join(' ')
+            );
+            speech.text = `The result of the calculation is ${calculation}`;
+            result.textContent = `The result of the calculation is ${calculation}`;
+          } catch (error) {
+            speech.text =
+              'Sorry, I was unable to perform the calculation';
+            result.textContent =
+              'Sorry, I was unable to perform the calculation';
+          }
+        }
+
+        speech.volume = 1;
+        speech.rate = 1.1;
+        speech.pitch = 1;
+
+        window.speechSynthesis.speak(speech);
+      }
+    </script>
+  </body>
+</html>
