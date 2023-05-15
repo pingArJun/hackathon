@@ -116,7 +116,13 @@
           window.open(
             'https://arjunkumar.me/aigame/'
           );
-
+if(message.includes('guess game')) {
+          const finalText =
+            News[Math.floor(Math.random() * News.length)];
+          speech.text = finalText;
+          window.open(
+            'http://arjunkumar.me/guessgame/'
+          );
         }
 
         if (message.includes('latest news')) {
