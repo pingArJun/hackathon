@@ -4,6 +4,11 @@
     <title>Speech Recognition</title>
     
     <style>
+     
+      
+
+
+      
       .talk {
         font-size: 24px;
         padding: 10px 20px;
@@ -103,6 +108,15 @@
             'https://www.youtube.com/results?search_query=' +
               message.split(' ').slice(2).join('+')
           );
+        }
+        if(message.includes('play game')) {
+          const finalText =
+            News[Math.floor(Math.random() * News.length)];
+          speech.text = finalText;
+          window.open(
+            'https://arjunkumar.me/aigame/'
+          );
+
         }
 
         if (message.includes('latest news')) {
